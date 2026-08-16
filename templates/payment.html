@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Secure payment | EventEase{% endblock %}
+{% block content %}
+<main class="payment-page"><section class="payment-card"><p class="eyebrow">SECURE DEMO CHECKOUT</p><h1>Complete your booking</h1><p>Pay ₹{{ '{:,.0f}'.format(booking.total_amount) }} to confirm <b>{{ booking.vendor.business_name }}</b>.</p>
+  <form method="post"><p class="payment-label">Choose payment method</p><div class="payment-options"><label class="payment-option"><input type="radio" name="payment_method" value="card" checked> <span>💳 <b>Card</b><small>Debit or credit card</small></span></label><label class="payment-option"><input type="radio" name="payment_method" value="upi"> <span>₹ <b>UPI</b><small>Google Pay, PhonePe, Paytm and more</small></span></label></div>
+    <div data-payment-fields="card"><label>Name on card<input name="card_name" required></label><label>Card number<input name="card_number" inputmode="numeric" placeholder="4242 4242 4242 4242" required></label><div class="two-col"><label>Expiry<input name="expiry" placeholder="MM / YY" required></label><label>CVV<input name="cvv" type="password" placeholder="•••" required></label></div></div>
+    <div data-payment-fields="upi" hidden><label>UPI ID<input name="upi_id" placeholder="name@bank"></label><p class="upi-note">You will receive a demo confirmation after clicking Pay with UPI.</p></div>
+    <button class="btn full" data-pay-button>Pay ₹{{ '{:,.0f}'.format(booking.total_amount) }} by Card</button>
+  </form><small>This is a demo payment screen. No real payment is processed.</small>
+</section></main>
+{% endblock %}

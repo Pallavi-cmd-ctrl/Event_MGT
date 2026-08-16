@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% block title %}Vendor dashboard | EventEase{% endblock %}
+{% block content %}
+<main class="section">
+  <p class="eyebrow">VENDOR DASHBOARD</p><h1>Welcome back, {{ vendor.business_name }}</h1>
+  <div class="stats"><div><small>Booking requests</small><strong>{{ bookings|length }}</strong></div><div><small>Confirmed</small><strong>{{ bookings|selectattr('status', 'equalto', 'Confirmed')|list|length }}</strong></div><div><small>Your starting price</small><strong>₹{{ '{:,.0f}'.format(vendor.min_price) }}</strong></div></div>
+  <h2>Booking requests</h2><div class="booking-list">{% for b in bookings %}
+    <article class="booking-row"><div><p class="badge">{{ b.status }} · {{ b.payment_status }}</p><h2>{{ b.event_type }} · {{ b.customer.name }}</h2><p>{{ b.event_date.strftime('%d %B %Y') }} · {{ b.guests }} guests · {{ b.venue }}</p><p>{{ b.selected_services }}{% if b.notes %} — {{ b.notes }}{% endif %}</p><p class="contact-line">Customer contact: <a href="tel:{{ b.customer.phone }}">☎ {{ b.customer.phone }}</a> · <a href="mailto:{{ b.customer.email }}">✉ {{ b.customer.email }}</a></p></div><div class="actions">{% if b.status in ['Pending','Confirmed'] %}<form method="post"><input type="hidden" name="booking_id" value="{{ b.id }}"><button name="action" value="Accepted" class="btn small">Accept</button><button name="action" value="Declined" class="text-btn">Decline</button></form>{% endif %}</div></article>
+  {% else %}<div class="empty"><h2>No requests yet</h2><p>Share your EventEase profile to start receiving bookings.</p></div>{% endfor %}</div>
+</main>
+{% endblock %}
